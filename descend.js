@@ -1,6 +1,30 @@
-
 const fs = require('fs');
-//var Heap = require("collections/heap");
+
+if (process.argv.length < 4) {
+    console.log("not enough arguments")
+    process.exit(1)
+}
+
+//after successful ar
+N = process.argv[3]
+
+//edge case for seeing if number is an integer
+function isInt(value) {
+    return !isNaN(value) && 
+           parseInt(Number(value)) == value && 
+           !isNaN(parseInt(value, 10));
+  }
+
+if (! isInt(N)) {
+    console.log("Please use integer")
+    process.exit(1)
+}
+
+//edge cases to handle negative value on argv[3]
+if (N <= 0) {
+    console.log("Please use positive integer")
+    process.exit(1)
+}
 
 highScore = (file_name, N) =>{ var data = fs.readFileSync(file_name).toString().split("\n");
 

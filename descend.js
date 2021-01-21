@@ -9,21 +9,19 @@ if (process.argv.length < 4) {
 //assign N to argv[3] 
 N = process.argv[3]
 
-//function for edge case to see if N is an integer(thanks stackoverflow)
+//function for edge case to see if N is an integer(thanks stackoverflow!)
 function isInt(value) {
     return !isNaN(value) && 
            parseInt(Number(value)) == value && 
            !isNaN(parseInt(value, 10));
   }
-//if N is not an integer please input integer
+//edge case for if N is not an integer please input integer
 if (! isInt(N)) {
     console.log("Please use integer")
     process.exit(1)
 }
-//end of stack overflow
 
-
-//edge cases to handle negative value on argv[3]
+//edge cases to handle 0 or negative value on argv[3]
 if (N <= 0) {
     console.log("Please use positive integer")
     process.exit(1)
@@ -35,38 +33,43 @@ highScore = (file_name, N) =>{ var data = fs.readFileSync(file_name).toString().
 //Create new array to hold processed objects
 const scoreArray = []
 
-//loop over data and push into new object.
+//loop over data (the split string from the file being read (made on line 31)
 for (let i =0; i < data.length; i++) {
+//sets variable for data that was looped over then splits data with proper format
     let line = data[i];
     let [score, record] = line.split(': ')
 
-//try catch to see if the record (id) being requested is parsable
+//try catch to see if the record (id) being requested is parsable as JSON
    try {
     record = JSON.parse(record)
-//pushing the data into the scoreArray so I can sort it
+
+//pushing the data into the scoreArray if its parsable as JSON so I can sort it later
     scoreArray.push({score : score, id : record.name})
    } catch (error) {
         record = 'error'
     scoreArray.push({score : score, id : record})
    } 
-
 }
+
 //sort the new scoreArray by descending order
 const sorted = scoreArray.sort((a,b) => {
     return b.score - a.score
 });
-
+//slice off 0 index (the score) and N (process.argv[3])
 return sorted.slice(0, N);
 }
 
-
+//set result to the 2 highscore arguments we need to grab from CLI
 result = highScore(process.argv[2], process.argv[3]);
-let isError = false
 
+//make sure the error used later doesnt automatically fire
+// until the boolean gets set to true (if true) after error handling
+let isError = false
+//for loop to loop over the result ar
 for (let index = 0; index < result.length; index++) {
     element = result[index];
 
-//actually log "this is not JSON" if the id value request is not parsable as JSON
+//actually log "this is not JSON" if the id value request is not parsable as JSON and set the isError to true
     if (element.id == "error") {
         console.log("THIS IS NOT JSON")
         isError = true
@@ -74,9 +77,11 @@ for (let index = 0; index < result.length; index++) {
 
 }
 
+//if isError is NOT true then
 if (! isError) {
 
-//console logs the results if they pass the tests above and null,2 just makes the strigified JSON data look prettier.
+//console log the results if they pass the tests above
+//null,2 just makes the strigified JSON data look prettier.
 console.log(JSON.stringify(result, null, 2))
 
 }

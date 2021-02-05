@@ -7,7 +7,7 @@ if (process.argv.length < 4) {
 }
 
 //assign N to argv[3] 
-N = process.argv[3]
+let N = process.argv[3]
 
 //function for edge case to see if N is an integer(thanks stackoverflow!)
 function isInt(value) {
@@ -28,7 +28,7 @@ if (N <= 0) {
 }
 
 //Main function for reading the file, changing it to a string and splitting the data 
-highScore = (file_name, N) =>{ var data = fs.readFileSync(file_name).toString().split("\n");
+let highScore = (file_name, N) =>{ let data = fs.readFileSync(file_name).toString().split("\n");
 
 //Create new array to hold processed objects
 const scoreArray = []
@@ -65,11 +65,13 @@ result = highScore(process.argv[2], process.argv[3]);
 //make sure the error used later doesnt automatically fire
 // until the boolean gets set to true (if true) after error handling
 let isError = false
-//for loop to loop over the result ar
+
+//for loop to loop over the result index
 for (let index = 0; index < result.length; index++) {
+//set variable element to be the result index 
     element = result[index];
 
-//actually log "this is not JSON" if the id value request is not parsable as JSON and set the isError to true
+//edge case to check if id coming back from actually log "this is not JSON" if the id value request is not parsable as JSON and set the isError to true
     if (element.id == "error") {
         console.log("THIS IS NOT JSON")
         isError = true
@@ -77,7 +79,7 @@ for (let index = 0; index < result.length; index++) {
 
 }
 
-//if isError is NOT true then
+//if isError is NOT true (its parsable as JSON) then
 if (! isError) {
 
 //console log the results if they pass the tests above

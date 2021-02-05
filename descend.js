@@ -7,7 +7,7 @@ if (process.argv.length < 4) {
 }
 
 //assign N to argv[3] 
-let N = process.argv[3]
+let n = process.argv[3]
 
 //function for edge case to see if N is an integer(thanks stackoverflow!)
 function isInt(value) {
@@ -16,19 +16,19 @@ function isInt(value) {
            !isNaN(parseInt(value, 10));
   }
 //edge case for if N is not an integer please input integer
-if (! isInt(N)) {
+if (! isInt(n)) {
     console.log("Please use integer")
     process.exit(1)
 }
 
 //edge cases to handle 0 or negative value on argv[3]
-if (N <= 0) {
+if (n <= 0) {
     console.log("Please use positive integer")
     process.exit(1)
 }
 
 //Main function for reading the file, changing it to a string and splitting the data 
-let highScore = (file_name, N) =>{ let data = fs.readFileSync(file_name).toString().split("\n");
+let highScore = (file_name, n) =>{ let data = fs.readFileSync(file_name).toString().split("\n");
 
 //Create new array to hold processed objects
 const scoreArray = []
@@ -56,7 +56,7 @@ const sorted = scoreArray.sort((a,b) => {
     return b.score - a.score
 });
 //slice off 0 index (the score) and N (process.argv[3])
-return sorted.slice(0, N);
+return sorted.slice(0, n);
 }
 
 //set result to the 2 highscore arguments we need to grab from CLI
